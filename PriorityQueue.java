@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   William Morris / 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -150,9 +150,13 @@ class PriorityQueue<E, P> {
      */
 
     public Node add(E e, P priority) {
+        
+        Node newNode = new Node(e, priority, tree.size()); //adds new node to tree
 
-        // YOUR CODE GOES HERE
-        return null;
+        tree.add(newNode);
+        pullUp(tree.size() - 1);// maintain min heap 
+
+        return newNode;
     }
 
 
