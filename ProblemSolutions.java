@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   WILLIAM MORRIS / 002
  *
  *   This java file contains the problem solutions for the methods lastBoulder,
  *   showDuplicates, and pair methods. You should utilize the Java Collection
@@ -65,11 +65,24 @@ public class ProblemSolutions {
 
   public static int lastBoulder(int[] boulders) {
 
-      //
-      // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
-      //
-      return -1;
-  }
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
+
+        for (int boulder : boulders) {
+            pq.add(boulder);
+        }
+
+        while (pq.size() > 1) {
+            int x = pq.poll();
+            int y = pq.poll();
+
+            if (x != y) {
+
+                pq.add(Math.abs(x - y));
+            }
+        }
+
+      return pq.isEmpty() ? 0 : pq.peek();
+    }
 
 
     /**
@@ -90,12 +103,20 @@ public class ProblemSolutions {
      */
 
     public static ArrayList<String> showDuplicates(ArrayList<String> input) {
+        HashMap<String, Integer> countMap = new HashMap<>();
+        for (String s : input) {
+            countMap.put(s, countMap.getOrDefault(s, 0) + 1);
+        }
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+        ArrayList<String> result = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : countMap.entrySet()) {
+            if (entry.getValue() > 1) {
+                result.add(entry.getKey());
+            }
+        }
 
+        Collections.sort(result);
+        return result;  
     }
 
 
@@ -130,10 +151,21 @@ public class ProblemSolutions {
      */
 
     public static ArrayList<String> pair(int[] input, int k) {
+        Set<Integer> seen = new HashSet<>();
+        Set<String> pairs = new TreeSet<>();
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+        for (int num : input) {
+            int complement = k - num;
+
+            if (seen.contains(complement)) {
+                int min = Math.min(num, complement);
+                int max = Math.max(num, complement);
+                pairs.add("(" + min + ", " + max + ")");
+            }
+
+            seen.add(num);
+        }
+
+        return new ArrayList<>(pairs);
     }
 }
